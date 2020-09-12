@@ -42,23 +42,27 @@ Route::get('/', function () {
 
 });
 
-Route::get('/post', function () {
+Route::get('/posts', function () {
 
 //     \App\Models\tag::create([
     
 //          'tag' => 'python'
 //     ]);  
 
-$post = \App\Models\post::first();
+// $post = \App\Models\post::first();
 $tag = \App\Models\tag::first();
 
-#for adding tag
-$post -> tags() -> attach($tag);
+// #for adding tag
+// $post -> tags() -> attach($tag);
 
-#for remove tag
-$post -> tags() -> detach($tag);
-$post -> tags() -> sync($tag);
+// #for remove tag
+// $post -> tags() -> detach($tag);
+// $post -> tags() -> sync($tag);
 
 
-return view('users.index');
+$posts = \App\Models\post::with('tags')->get();
+$tags = \App\Models\tag::with('posts')->get();
+
+// $post -> tags() -> sync($tag);
+return view('posts.index', compact('posts','tags'));
 });
